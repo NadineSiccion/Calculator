@@ -17,7 +17,19 @@ let updateInputScreen = function(inputNumbers) {
     inputScreenP.textContent = inputNumbers;
 }
 
-
+// TODO: create clear functionality
+const clearInputs = function() {
+    if (activeOperation != null) {
+        Array.from(operationButtons).filter(item => activeOperation == item.id)[0].classList.toggle('active')
+    }
+    activeOperation = null;
+    firstOpperand = null;
+    secondOpperand = null;
+    inputNumbers = [];
+    updateInputScreen('')
+    console.log('clearInputs() ran')
+    
+}
 
 
 // what each button in the button pad will do
@@ -36,7 +48,13 @@ buttonPad.addEventListener('click', event => {
         updateInputScreen(display);
     } else if (className == 'operation') {
         setOperation(event)
-    } else if (firstOpperand != null && event.target.id == "equal") {
+    } else if (className == 'modifier') {
+        switch (event.target.textContent) {
+            case 'AC':
+                clearInputs()
+                break;
+        }
+    }else if (firstOpperand != null && event.target.id == "equal") {
         secondOpperand = getDisplayedNum()
         firstOpperand = operate(firstOpperand, secondOpperand, activeOperation)
         // TODO: reflect answer at display
