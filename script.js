@@ -7,6 +7,9 @@ let firstOpperand = null
 VALIDINPUTS = ['1','2','3','4','5','6','7','8','9','0','.']
 OPERATIONINPUTS = ['+','-','*','/','Enter']
 
+// TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
+// FIXME: no more than 1 decimal place in input
+
 const inputScreenP = document.querySelector('.input-screen p');
 
 /** 
@@ -68,11 +71,15 @@ buttonPad.addEventListener('click', event => {
     if (activeOperation != null && firstOpperand == null) {
         getSecondOperand(event)
     }
-    if (className == 'number') { 
-        inputNumbers.push(event.target.textContent);
-        let display = inputNumbers.join("")
-        console.log(display) 
-        updateInputScreen(display);
+    if (className == 'number') {
+        if ((event.target.textContent == ".") && (inputNumbers.includes("."))) {
+            console.log('only one decimal point allowed') // pass 
+        } else {
+            inputNumbers.push(event.target.textContent);
+            let display = inputNumbers.join("")
+            console.log(display) 
+            updateInputScreen(display);
+        }
     } else if (className == 'operation') {
         setOperation(event)
     } // modifier buttons
@@ -99,10 +106,14 @@ buttonPad.addEventListener('click', event => {
 window.addEventListener('keydown', event => {
     // console.log(event)
     if (VALIDINPUTS.includes(event.key)) {
-        inputNumbers.push(event.key);
-        let display = inputNumbers.join("")
-        console.log(display) 
-        updateInputScreen(display);
+        if ((event.key == ".") && (inputNumbers.includes("."))) {
+            console.log('only one decimal point allowed') // pass
+        } else {
+            inputNumbers.push(event.key);
+            let display = inputNumbers.join("")
+            console.log(display) 
+            updateInputScreen(display);
+        }
     } 
 }, true)
 
