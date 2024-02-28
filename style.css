@@ -58,3 +58,7 @@ body {
 .operation {
     background-color: #E84D8A;
 }
+
+.operation.active {
+    background-color: #b03a68;
+}
