@@ -8,7 +8,6 @@ VALIDINPUTS = ['1','2','3','4','5','6','7','8','9','0','.']
 OPERATIONINPUTS = ['+','-','*','/','Enter']
 
 // TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
-// FIXME: no more than 1 decimal place in input
 
 const inputScreenP = document.querySelector('.input-screen p');
 
@@ -84,16 +83,19 @@ buttonPad.addEventListener('click', event => {
         setOperation(event)
     } // modifier buttons
     else if (className == 'modifier') {
+        event.stopPropagation();
         switch (event.target.textContent) {
             case 'AC':
                 clearInputs();
                 break;
             case 'DEL':
                 deleteFromInput();
+                break;
             case '+/-':
                 negateInput();
+                break;
         }
-    }else if (firstOpperand != null && event.target.id == "equal") {
+    } else if (firstOpperand != null && event.target.id == "equal") {
         secondOpperand = getDisplayedNum();
         firstOpperand = operate(firstOpperand, secondOpperand, activeOperation);
         inputNumbers = [];
@@ -115,7 +117,7 @@ window.addEventListener('keydown', event => {
             updateInputScreen(display);
         }
     } 
-}, true)
+})
 
 
 // establish operations that would be performed
