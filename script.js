@@ -4,6 +4,8 @@ let activeOperation = null;
 const operationButtons = document.querySelectorAll('.operation')
 let firstOpperand = null
 , secondOpperand = null
+VALIDINPUTS = ['1','2','3','4','5','6','7','8','9','0','.']
+OPERATIONINPUTS = ['+','-','*','/','Enter']
 
 const inputScreenP = document.querySelector('.input-screen p');
 
@@ -18,6 +20,7 @@ let updateInputScreen = function(inputNumbers) {
 }
 
 // TODO: setActiveOperations function that updates LatestOperation variable which will be called if no operation is active and a secondOpperand is not added after equating an answer
+
 
 // delete functionality for DEL button
 const deleteFromInput = function() {
@@ -35,16 +38,6 @@ const negateInput = function() {
     currentInput *= -1;
     inputNumbers = currentInput.toString().split("");
     console.log(inputNumbers);
-    updateInputScreen(currentInput)
-}
-
-// TODO: add decimal functionality
-const addDecimal = function() {
-    console.log('running addDecimal');
-    let currentInput = inputScreenP.textContent.split("");
-    currentInput = currentInput.push(".");
-    inputNumbers = currentInput;
-    currentInput = currentInput.join("");
     updateInputScreen(currentInput)
 }
 
@@ -82,7 +75,8 @@ buttonPad.addEventListener('click', event => {
         updateInputScreen(display);
     } else if (className == 'operation') {
         setOperation(event)
-    } else if (className == 'modifier') {
+    } // modifier buttons
+    else if (className == 'modifier') {
         switch (event.target.textContent) {
             case 'AC':
                 clearInputs();
@@ -101,6 +95,18 @@ buttonPad.addEventListener('click', event => {
     }
 });
 
+// key press event listener for buttons
+window.addEventListener('keydown', event => {
+    // console.log(event)
+    if (VALIDINPUTS.includes(event.key)) {
+        inputNumbers.push(event.key);
+        let display = inputNumbers.join("")
+        console.log(display) 
+        updateInputScreen(display);
+    } 
+}, true)
+
+
 // establish operations that would be performed
 const add = function(num1, num2) {
     return num1 + num2;
@@ -118,7 +124,6 @@ const divide = function(num1, num2) {
     return num1 / num2;
 }
 
-// take in number from the input screen as first number
 /** 
  * return textContent of inputScreenP. 
  */
@@ -127,8 +132,6 @@ const getDisplayedNum = function() {
     inputText = inputScreenP.textContent
     return Number(inputText)
 }
-
-// toggle active operation
 
 /** 
  * Evaluates which of the operation buttons has been pushed and sets it as the activeOperation.
@@ -192,12 +195,3 @@ const operate = function (num1, num2, operation) {
       }
     return answer
 }
-
-// test function button
-// const equalBtn = document.querySelector('#equal')
-// equalBtn.addEventListener('click', event => {
-//     console.log(inputNumbers)
-//     console.log(inputScreenP.textContent)
-//     console.log(inputNumbers==null)
-//     console.log(inputScreenP.textContent==null)
-// })
