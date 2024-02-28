@@ -17,12 +17,24 @@ let updateInputScreen = function(inputNumbers) {
     inputScreenP.textContent = inputNumbers;
 }
 
-// TODO: create clear functionality
-const clearInputs = function() {
+const deleteFromInput = function() {
+    console.log('running deleteFromInput');
+    let currentInput = inputScreenP.textContent.split("");
+    currentInput.pop();
+    inputNumbers = currentInput;
+    currentInput = currentInput.join("");
+    updateInputScreen(currentInput)
+}
+
+const clearActiveOperation = function() {
     if (activeOperation != null) {
         Array.from(operationButtons).filter(item => activeOperation == item.id)[0].classList.toggle('active')
     }
     activeOperation = null;
+}
+
+const clearInputs = function() {
+    clearActiveOperation()
     firstOpperand = null;
     secondOpperand = null;
     inputNumbers = [];
@@ -53,15 +65,15 @@ buttonPad.addEventListener('click', event => {
             case 'AC':
                 clearInputs()
                 break;
+            case 'DEL':
+                deleteFromInput()
         }
     }else if (firstOpperand != null && event.target.id == "equal") {
-        secondOpperand = getDisplayedNum()
-        firstOpperand = operate(firstOpperand, secondOpperand, activeOperation)
-        // TODO: reflect answer at display
-        inputNumbers = []
+        secondOpperand = getDisplayedNum();
+        firstOpperand = operate(firstOpperand, secondOpperand, activeOperation);
+        inputNumbers = [];
         updateInputScreen(firstOpperand)
-        // TODO: unclick operation (set activeOperation to null and toggle active class)
-        
+        clearActiveOperation();
     }
 });
 
