@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+#calculator {
+    width: 450px;
+    height: 600px;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    background-color: #7F58AF;
+}
+
+.input-screen {
+    border: 2px solid black;
+    width: inherit;
+    height: 130px;
+    background-color: #FAF9F6;
+}
+
+.button-pad {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    height: 100%;
+    gap: 4px;
+}
+
+.button-pad > button {
+    width: 100px;
+    flex: 1 1 auto;
+    align-items: stretch;
+    font-weight: 900;
+    font-size: 32px;
+}
+
+.number {
+    background-color: #64C5EB;
+}
+
+.modifier {
+    background-color: #FEB326;
+}
+
+.operator {
+    background-color: #E84D8A;
+}
