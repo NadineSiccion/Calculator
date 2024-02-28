@@ -17,6 +17,7 @@ let updateInputScreen = function(inputNumbers) {
     inputScreenP.textContent = inputNumbers;
 }
 
+// delete functionality for DEL button
 const deleteFromInput = function() {
     console.log('running deleteFromInput');
     let currentInput = inputScreenP.textContent.split("");
@@ -25,6 +26,18 @@ const deleteFromInput = function() {
     currentInput = currentInput.join("");
     updateInputScreen(currentInput)
 }
+
+// negate functionality for +/- button
+const negateInput = function() {
+    let currentInput = Number(inputScreenP.textContent)
+    currentInput *= -1;
+    inputNumbers = currentInput.toString().split("");
+    console.log(inputNumbers);
+    updateInputScreen(currentInput)
+}
+
+// TODO: add decimal functionality
+
 
 const clearActiveOperation = function() {
     if (activeOperation != null) {
@@ -63,10 +76,12 @@ buttonPad.addEventListener('click', event => {
     } else if (className == 'modifier') {
         switch (event.target.textContent) {
             case 'AC':
-                clearInputs()
+                clearInputs();
                 break;
             case 'DEL':
-                deleteFromInput()
+                deleteFromInput();
+            case '+/-':
+                negateInput();
         }
     }else if (firstOpperand != null && event.target.id == "equal") {
         secondOpperand = getDisplayedNum();
