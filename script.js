@@ -17,6 +17,8 @@ let updateInputScreen = function(inputNumbers) {
     inputScreenP.textContent = inputNumbers;
 }
 
+// TODO: setActiveOperations function that updates LatestOperation variable which will be called if no operation is active and a secondOpperand is not added after equating an answer
+
 // delete functionality for DEL button
 const deleteFromInput = function() {
     console.log('running deleteFromInput');
@@ -37,7 +39,14 @@ const negateInput = function() {
 }
 
 // TODO: add decimal functionality
-
+const addDecimal = function() {
+    console.log('running addDecimal');
+    let currentInput = inputScreenP.textContent.split("");
+    currentInput = currentInput.push(".");
+    inputNumbers = currentInput;
+    currentInput = currentInput.join("");
+    updateInputScreen(currentInput)
+}
 
 const clearActiveOperation = function() {
     if (activeOperation != null) {
