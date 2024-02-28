@@ -21,6 +21,14 @@ body {
     width: inherit;
     height: 130px;
     background-color: #FAF9F6;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.input-screen p {
+    font-size: 32px;
+    font-weight: 900;
 }
 
 .button-pad {
@@ -47,6 +55,6 @@ body {
     background-color: #FEB326;
 }
 
-.operator {
+.operation {
     background-color: #E84D8A;
 }
