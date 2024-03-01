@@ -13,6 +13,12 @@ const KEYOPERATIONMAP = {
     "divide": '/',
     "equal": 'Enter'
 }
+const MODIFIERINPUTS = ['Backspace', 'Escape', 'Tab']
+const KEYMODIFIERMAP = {
+    "DEL": 'Backspace',
+    "AC": 'Escape',
+    "+/-": 'Tab',
+}
 let previousOperation = [null, null]
 
 // TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
@@ -32,7 +38,6 @@ let updateInputScreen = function(inputNumbers) {
 // TODO: setActiveOperations function that updates LatestOperation variable which will be called if no operation is active and a secondOpperand is not added after equating an answer
 
 // TODO: Add keyboard for DEL and AC (escape), negate (tab)
-// FIXME: 
 
 
 // delete functionality for DEL button
@@ -142,8 +147,13 @@ window.addEventListener('keydown', event => {
     } else if (OPERATIONINPUTS.includes(event.key)) {
         setOperationKey(event);
     } else if (firstOpperand != null && getKeyByValue(KEYOPERATIONMAP, event.key) == "equal") {
-        console.log('Equal button activated')
-        secondOpperand = getDisplayedNum();
+        if (secondOpperand == null && activeOperation == null) {
+            secondOpperand = previousOperation[1]
+            activeOperation = previousOperation[0]
+            Array.from(operationButtons).filter(button=>button.id == activeOperation)[0].classList.toggle('active')
+        } else {
+            secondOpperand = getDisplayedNum();
+        }
         firstOpperand = operate(firstOpperand, secondOpperand, activeOperation);
         inputNumbers = [];
         updateInputScreen(firstOpperand)
