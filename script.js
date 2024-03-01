@@ -13,6 +13,7 @@ const KEYOPERATIONMAP = {
     "divide": '/',
     "equal": 'Enter'
 }
+let previousOperation = [null, null]
 
 // TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
 
@@ -30,7 +31,8 @@ let updateInputScreen = function(inputNumbers) {
 
 // TODO: setActiveOperations function that updates LatestOperation variable which will be called if no operation is active and a secondOpperand is not added after equating an answer
 
-// TODO: Add keyboard functionality for operations
+// TODO: Add keyboard for DEL and AC (escape), negate (tab)
+// FIXME: 
 
 
 // delete functionality for DEL button
@@ -104,11 +106,21 @@ buttonPad.addEventListener('click', event => {
                 break;
         }
     } else if (firstOpperand != null && event.target.id == "equal") {
-        secondOpperand = getDisplayedNum();
+        if (secondOpperand == null && activeOperation == null) {
+            secondOpperand = previousOperation[1]
+            activeOperation = previousOperation[0]
+            Array.from(operationButtons).filter(button=>button.id == activeOperation)[0].classList.toggle('active')
+        } else {
+            secondOpperand = getDisplayedNum();
+        }
         firstOpperand = operate(firstOpperand, secondOpperand, activeOperation);
         inputNumbers = [];
         updateInputScreen(firstOpperand)
+        secondOpperand = null;
         clearActiveOperation();
+
+        // console.log('first equal')
+        // console.log(firstOpperand, activeOperation, previousOperation, inputNumbers, event.target.id)
     }
 });
 
@@ -135,6 +147,7 @@ window.addEventListener('keydown', event => {
         firstOpperand = operate(firstOpperand, secondOpperand, activeOperation);
         inputNumbers = [];
         updateInputScreen(firstOpperand)
+        secondOpperand = null;
         clearActiveOperation();
     }
 })
@@ -197,7 +210,7 @@ const setOperation = function(event) {
 
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
-  }
+}
 
 const setOperationKey = function(event) {
     let buttonId = getKeyByValue(KEYOPERATIONMAP, event.key);
@@ -253,5 +266,7 @@ const operate = function (num1, num2, operation) {
         default:
           break;
       }
+    previousOperation[0] = operation;
+    previousOperation[1] = num2;
     return answer
 }
