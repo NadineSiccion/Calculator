@@ -19,7 +19,8 @@ const KEYMODIFIERMAP = {
     "AC": 'Escape',
     "+/-": 'Tab',
 }
-let previousOperation = [null, null]
+let previousOperation = [null, null];
+let afterEqual = false;
 
 // TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
 
@@ -95,11 +96,19 @@ buttonPad.addEventListener('click', event => {
     // Number buttons
     if (activeOperation != null && firstOpperand == null) {
         getSecondOperand(event)
+        inputNumbers.push(event.key);
+        let display = inputNumbers.join("")
+        console.log(display) 
+        updateInputScreen(display);
     }
     if (className == 'number') {
         if ((event.target.textContent == ".") && (inputNumbers.includes("."))) {
             console.log('only one decimal point allowed') // pass 
         } else {
+            if (afterEqual == true && inputNumbers == false) {
+                clearInputs();
+                afterEqual = false;
+            }
             inputNumbers.push(event.target.textContent);
             let display = inputNumbers.join("")
             console.log(display) 
@@ -134,9 +143,7 @@ buttonPad.addEventListener('click', event => {
         updateInputScreen(firstOpperand)
         secondOpperand = null;
         clearActiveOperation();
-
-        // console.log('first equal')
-        // console.log(firstOpperand, activeOperation, previousOperation, inputNumbers, event.target.id)
+        afterEqual = true;
     }
 });
 
@@ -146,10 +153,18 @@ window.addEventListener('keydown', event => {
     
     if (activeOperation != null && firstOpperand == null) {
         getSecondOperand(event)
+        inputNumbers.push(event.key);
+        let display = inputNumbers.join("")
+        console.log(display) 
+        updateInputScreen(display);
     } else if (VALIDINPUTS.includes(event.key)) {
         if ((event.key == ".") && (inputNumbers.includes("."))) {
             console.log('only one decimal point allowed') // pass
         } else {
+            if (afterEqual == true && inputNumbers == false) {
+                clearInputs();
+                afterEqual = false;
+            }
             inputNumbers.push(event.key);
             let display = inputNumbers.join("")
             console.log(display) 
@@ -184,6 +199,7 @@ window.addEventListener('keydown', event => {
         updateInputScreen(firstOpperand)
         secondOpperand = null;
         clearActiveOperation();
+        afterEqual = true;
     }
 })
 
