@@ -35,10 +35,6 @@ let updateInputScreen = function(inputNumbers) {
     inputScreenP.textContent = inputNumbers;
 }
 
-// TODO: setActiveOperations function that updates LatestOperation variable which will be called if no operation is active and a secondOpperand is not added after equating an answer
-
-// TODO: Add keyboard for DEL and AC (escape), negate (tab)
-
 
 // delete functionality for DEL button
 const deleteFromInput = function() {
@@ -146,6 +142,20 @@ window.addEventListener('keydown', event => {
         }
     } else if (OPERATIONINPUTS.includes(event.key)) {
         setOperationKey(event);
+    } else if (MODIFIERINPUTS.includes(event.key)) {
+        event.preventDefault();
+        let mappedKey = getKeyByValue(KEYMODIFIERMAP, event.key)
+        switch (mappedKey) {
+            case 'AC':
+                clearInputs();
+                break;
+            case 'DEL':
+                deleteFromInput();
+                break;
+            case '+/-':
+                negateInput();
+                break;
+        }
     } else if (firstOpperand != null && getKeyByValue(KEYOPERATIONMAP, event.key) == "equal") {
         if (secondOpperand == null && activeOperation == null) {
             secondOpperand = previousOperation[1]
