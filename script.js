@@ -41,9 +41,15 @@ const deleteFromInput = function() {
     console.log('running deleteFromInput');
     let currentInput = inputScreenP.textContent.split("");
     currentInput.pop();
+    // if currentInput length == 0 then displayZero; else
     inputNumbers = currentInput;
-    currentInput = currentInput.join("");
-    updateInputScreen(currentInput)
+    if (currentInput.length == 0) {
+        displayZero();
+    } else {
+        console.log('input after pop: ' + currentInput)
+        currentInput = currentInput.join("");
+        updateInputScreen(currentInput);
+    }
 }
 
 // negate functionality for +/- button
@@ -197,6 +203,13 @@ const getDisplayedNum = function() {
     let inputText;
     inputText = inputScreenP.textContent
     return Number(inputText)
+}
+
+/**
+ * displays zero on the input screen.
+ */
+const displayZero = function() {
+    inputScreenP.textContent = 0
 }
 
 /** 
