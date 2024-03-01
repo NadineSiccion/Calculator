@@ -80,6 +80,7 @@ const clearInputs = function() {
     firstOpperand = null;
     secondOpperand = null;
     inputNumbers = [];
+    afterEqual = false;
     displayZero();
     console.log('clearInputs() ran')
 }
@@ -222,7 +223,7 @@ const multiply = function(num1, num2) {
 }
 const divide = function(num1, num2) {
     if (num2 == 0) {
-        return 'not falling for that one!'
+        return 'nuh uh!'
     }
     return num1 / num2;
 }
@@ -245,6 +246,7 @@ const getDisplayedNum = function() {
 const setOperation = function(event) {
     let buttonId = event.target.id;
     let target = event.target;
+    afterEqual = false;
     firstNum = getDisplayedNum();
     if (Boolean(inputScreenP.textContent) == false) {
         console.log('no operand given')
@@ -272,6 +274,7 @@ function getKeyByValue(object, value) {
 const setOperationKey = function(event) {
     let buttonId = getKeyByValue(KEYOPERATIONMAP, event.key);
     let target = document.querySelector('#' + buttonId);
+    afterEqual = false;
     firstNum = getDisplayedNum();
     if (Boolean(inputScreenP.textContent) == false) {
         console.log('no operand given')
