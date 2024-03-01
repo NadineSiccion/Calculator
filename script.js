@@ -22,8 +22,6 @@ const KEYMODIFIERMAP = {
 let previousOperation = [null, null];
 let afterEqual = false;
 
-// TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
-
 const inputScreenP = document.querySelector('.input-numbers');
 
 
@@ -95,11 +93,15 @@ buttonPad.addEventListener('click', event => {
     className = event.target.classList[0];
     // Number buttons
     if (activeOperation != null && firstOpperand == null) {
-        getSecondOperand(event)
-        inputNumbers.push(event.key);
-        let display = inputNumbers.join("")
-        console.log(display) 
-        updateInputScreen(display);
+        if (event.target.id == 'equal') {
+            console.log('no second operator')
+        } else {
+            getSecondOperand(event)
+            inputNumbers.push(event.key);
+            let display = inputNumbers.join("")
+            console.log(display) 
+            updateInputScreen(display);
+        }
     }
     if (className == 'number') {
         if ((event.target.textContent == ".") && (inputNumbers.includes("."))) {
@@ -152,11 +154,15 @@ window.addEventListener('keydown', event => {
     // console.log(event)
     
     if (activeOperation != null && firstOpperand == null) {
-        getSecondOperand(event)
-        inputNumbers.push(event.key);
-        let display = inputNumbers.join("")
-        console.log(display) 
-        updateInputScreen(display);
+        if (event.key == KEYOPERATIONMAP['equal']) {
+            console.log('no second operator')
+        } else {
+            getSecondOperand(event)
+            inputNumbers.push(event.key);
+            let display = inputNumbers.join("")
+            console.log(display) 
+            updateInputScreen(display);
+        }
     } else if (VALIDINPUTS.includes(event.key)) {
         if ((event.key == ".") && (inputNumbers.includes("."))) {
             console.log('only one decimal point allowed') // pass
