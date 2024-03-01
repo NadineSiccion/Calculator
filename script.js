@@ -23,7 +23,15 @@ let previousOperation = [null, null]
 
 // TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
 
-const inputScreenP = document.querySelector('.input-screen p');
+const inputScreenP = document.querySelector('.input-numbers');
+
+
+/**
+ * displays zero on the input screen.
+ */
+const displayZero = function() {
+    inputScreenP.textContent = 0
+}
 
 /** 
  * display argument on inputScreenP.
@@ -73,10 +81,11 @@ const clearInputs = function() {
     firstOpperand = null;
     secondOpperand = null;
     inputNumbers = [];
-    updateInputScreen('')
+    displayZero();
     console.log('clearInputs() ran')
 }
 
+displayZero();
 
 // what each button in the button pad will do
 const buttonPad = document.querySelector('.button-pad');
@@ -203,13 +212,6 @@ const getDisplayedNum = function() {
     let inputText;
     inputText = inputScreenP.textContent
     return Number(inputText)
-}
-
-/**
- * displays zero on the input screen.
- */
-const displayZero = function() {
-    inputScreenP.textContent = 0
 }
 
 /** 
