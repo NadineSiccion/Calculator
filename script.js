@@ -5,7 +5,14 @@ const operationButtons = document.querySelectorAll('.operation')
 let firstOpperand = null
 , secondOpperand = null
 VALIDINPUTS = ['1','2','3','4','5','6','7','8','9','0','.']
-OPERATIONINPUTS = ['+','-','*','/','Enter']
+OPERATIONINPUTS = ['+','-','*','/']
+const KEYOPERATIONMAP = {
+    "add": '+',
+    "subtract": '-',
+    "multiply": '*',
+    "divide": '/',
+    "equal": 'Enter'
+}
 
 // TODO: make default content of inputScreenP as "0", if 0 next number input can overwrite it.
 
@@ -22,6 +29,8 @@ let updateInputScreen = function(inputNumbers) {
 }
 
 // TODO: setActiveOperations function that updates LatestOperation variable which will be called if no operation is active and a secondOpperand is not added after equating an answer
+
+// TODO: Add keyboard functionality for operations
 
 
 // delete functionality for DEL button
@@ -57,7 +66,6 @@ const clearInputs = function() {
     inputNumbers = [];
     updateInputScreen('')
     console.log('clearInputs() ran')
-    
 }
 
 
@@ -107,7 +115,10 @@ buttonPad.addEventListener('click', event => {
 // key press event listener for buttons
 window.addEventListener('keydown', event => {
     // console.log(event)
-    if (VALIDINPUTS.includes(event.key)) {
+    
+    if (activeOperation != null && firstOpperand == null) {
+        getSecondOperand(event)
+    } else if (VALIDINPUTS.includes(event.key)) {
         if ((event.key == ".") && (inputNumbers.includes("."))) {
             console.log('only one decimal point allowed') // pass
         } else {
@@ -116,7 +127,16 @@ window.addEventListener('keydown', event => {
             console.log(display) 
             updateInputScreen(display);
         }
-    } 
+    } else if (OPERATIONINPUTS.includes(event.key)) {
+        setOperationKey(event);
+    } else if (firstOpperand != null && getKeyByValue(KEYOPERATIONMAP, event.key) == "equal") {
+        console.log('Equal button activated')
+        secondOpperand = getDisplayedNum();
+        firstOpperand = operate(firstOpperand, secondOpperand, activeOperation);
+        inputNumbers = [];
+        updateInputScreen(firstOpperand)
+        clearActiveOperation();
+    }
 })
 
 
@@ -155,6 +175,33 @@ const getDisplayedNum = function() {
 const setOperation = function(event) {
     let buttonId = event.target.id;
     let target = event.target;
+    firstNum = getDisplayedNum();
+    if (Boolean(inputScreenP.textContent) == false) {
+        console.log('no operand given')
+    } else if (activeOperation == null) {
+        target.classList.toggle('active');
+        activeOperation = buttonId;
+        console.log('active operation set to ' + activeOperation);
+    } else if (activeOperation == buttonId) {
+        target.classList.toggle('active');
+        activeOperation = null;
+        console.log('active operation set to ' + activeOperation);
+    } else {
+        let activeOperationButton = Array.from(operationButtons).filter(item=>(item.id == activeOperation));
+        activeOperationButton[0].classList.toggle('active');
+        target.classList.toggle('active');
+        activeOperation = buttonId;
+        console.log('active operation set to ' + activeOperation);
+    }
+}
+
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+  }
+
+const setOperationKey = function(event) {
+    let buttonId = getKeyByValue(KEYOPERATIONMAP, event.key);
+    let target = document.querySelector('#' + buttonId);
     firstNum = getDisplayedNum();
     if (Boolean(inputScreenP.textContent) == false) {
         console.log('no operand given')
